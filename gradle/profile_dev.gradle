@@ -1,0 +1,10 @@
+processResources {
+    filesMatching('**/application.yml') {
+        filter {
+            it.replace('%APP_VERSION_TOKEN%', version.toString().split("-")[0] + "." + getCommitId())
+        }
+        filter {
+            it.replace('#spring.profiles.active#', 'dev')
+        }
+    }
+}

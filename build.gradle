@@ -1,0 +1,104 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'war'
+}
+
+group = 'com.company'
+version = '0.1.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+war {
+    webAppDirName = 'build/www'
+}
+
+if (project.hasProperty('prod')) {
+    apply from: 'gradle/profile_prod.gradle'
+} else {
+    apply from: 'gradle/profile_dev.gradle'
+}
+
+bootWar {
+    // 在 war 包上加上 git 提交记录
+    archiveVersion = version.toString().split("-")[0] + "." + getCommitId()
+}
+
+def getCommitId() {
+    try {
+        def commitId = 'git rev-parse HEAD'.execute().text.trim().substring(0, 7)
+        return commitId
+    } catch (Exception e) {
+        e.printStackTrace()
+    }
+}
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.3.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+    annotationProcessor 'org.projectlombok:lombok'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    compile "com.jayway.jsonpath:json-path:2.3.0"
+    compile "com.alibaba:fastjson:1.1.15"
+
+    compile 'com.github.promeg:tinypinyin:2.0.3'
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.9'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'
+    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.9'
+    compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
+    compile "org.apache.httpcomponents:httpmime:4.3.5"
+
+    compile group: 'org.zalando', name: 'problem-spring-web', version: '0.25.2'
+
+    compile 'org.bouncycastle:bcprov-jdk15on:1.58'
+
+    compile 'io.jsonwebtoken:jjwt-api:0.10.6'
+    compile 'io.jsonwebtoken:jjwt-impl:0.10.6'
+    compile 'io.jsonwebtoken:jjwt-jackson:0.10.6'
+
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation 'org.springframework.security:spring-security-test'
+    testCompile "org.assertj:assertj-core:3.11.1"
+}
+
+test {
+    useJUnitPlatform()
+}

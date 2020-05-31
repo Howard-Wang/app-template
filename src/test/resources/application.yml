@@ -1,0 +1,38 @@
+app:
+    version: test
+
+spring:
+    profiles: test
+    datasource:
+        driver-class-name: org.h2.Driver
+        schema: classpath:db/schema-h2.sql
+        url: jdbc:h2:mem:test
+        username: root
+        password: test
+
+mybatis-plus:
+    configuration:
+        map-underscore-to-camel-case: false
+
+server:
+    port: 8090
+
+customize:
+    http:
+        port: 8090
+    log:
+        path: ./
+        name: app-template
+
+jwt:
+    header: Authorization
+    # This token must be encoded using Base64 with mininum 88 Bits (you can type `echo 'secret-key'|base64` on your command line)
+    base64-secret: ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=
+    # token is valid 24 hours
+    token-validity-in-seconds: 86400
+    # valid 30 hours
+    token-validity-in-seconds-for-remember-me: 108000
+    route:
+        authentication:
+            path: auth
+            refresh: refresh

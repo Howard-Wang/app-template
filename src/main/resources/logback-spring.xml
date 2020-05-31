@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    scan: 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true
+    scanPeriod: 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。时间间隔为30s
+    debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false
+-->
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+
+    <property resource="application.yml"/>
+    <springProperty scope="context" name="LOG_NAME" source="customize.log.name"/>
+    <springProperty scope="context" name="LOG_HOME" source="customize.log.path"/>
+
+    <springProperty scope="context" name="APP_NAME" source="server.name" defaultValue="${LOG_NAME}"/>
+    <springProperty scope="context" name="LOG_PATH" source="log.path" defaultValue="${LOG_HOME}"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n" />
+    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%thread] %logger Line:%-3L - %msg%n" />
+
+    <contextName>${APP_NAME}</contextName>
+
+    <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}${APP_NAME}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- daily rolling over -->
+            <FileNamePattern>${LOG_PATH}${APP_NAME}-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <!-- each file at most 100MB size -->
+            <maxFileSize>5MB</maxFileSize>
+            <!-- keep 30 days' log history -->
+            <maxHistory>30</maxHistory>
+            <!--total file size limit-->
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!--日志输出到控制台规则 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d[%level]%c{100}.%M:%L%m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework" level = "INFO"/>
+
+    <property name="root.level.console" value="OFF"/>
+
+    <root level="INFO">
+        <appender-ref ref="dailyRollingFileAppender"/>
+<!--FIXME 下面这行在 gradle build 的时候会自动注释，不能手动注释-->
+        <appender-ref ref="console"/>
+    </root>
+
+</configuration>
