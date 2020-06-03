@@ -13,8 +13,8 @@ commonly used technical modules in front-end and back-end development,
 and implements some common functions, which greatly facilitates the development
 of enterprises and individuals.
 
-The whole project consists of three ends: back end, management end,
-mobile web end, and packaged into a war package for easy deployment.
+The whole project consists of three ends: **back end**, **management web**,
+**mobile web** end, and packaged into a **war** package for easy deployment.
 
 The specific integrated technologies are:
 * Spring Boot
@@ -38,6 +38,7 @@ The functions implemented are:
 * Use Logan to get the front-end error log
 
 ## Compile
+
 Please Run `./build.sh` Then choose the compiled version according to the prompt.
 
 Compilation supports the **development mode** and the **production mode**.
