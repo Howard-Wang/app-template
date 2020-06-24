@@ -85,7 +85,7 @@ buildAll() {
     gradle build -Pprod -x test
   else
     echo "** BUILD DEV **"
-    gradle build -Pprod -x test
+    gradle build
   fi
 
   if [ $? -ne 0 ];then
@@ -103,7 +103,7 @@ buildAll() {
 npmBuild() {
   $NPM_CMD install
   if [ $? -ne 0 ];then
-    error "$NPM_CMDinstall failed"
+    error "$NPM_CMD install failed"
     exit 1
   fi
 
