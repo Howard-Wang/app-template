@@ -23,6 +23,16 @@ app-template 是基于 Spring Boot 和 Vue 的快速开发模板
 
 详细说明请参考 `doc\manual` 下的文档
 
+* [项目的详细配置和编译说明](./doc/manual/项目配置.md)
+* [用户认证和授权](./doc/manual/用户认证和授权(用户名和密码).md)
+* [Web 端权限管理](./doc/manual/权限管理.md)
+* [后端日志处理](./doc/manual/日志.md)
+* [国际化](./doc/manual/国际化.md)
+* [Logan 的使用](./doc/manual/logan.md)
+* [Swagger 的使用](./doc/manual/swagger.md)
+* [Http 和 Https 的配置](./doc/manual/http和https.md)
+* [H2 数据库的使用](./doc/manual/h2数据库.md)
+
 实现的功能有：
 
 * 开发环境与生成环境的配置切换
@@ -37,10 +47,15 @@ app-template 是基于 Spring Boot 和 Vue 的快速开发模板
 
 ## 编译
 
+**注意**: 如果编译 **prod** 版本，请先确保在 `application-pro.yml` 中设置了正确
+的 Mysql 用户名、密码、数据库名称，并且在运行前确保数据库初始化完毕。
+
 执行 `./build.sh` 然后根据提示选择编译的版本
 
 编译支持**开发版本**和**生产版本**，两者唯一的区别就是数据库使用的不一样，
 开发模式下默认使用的是 **H2** 数据库，生产模式使用的是 **Mysql** 数据库
+
+建议：如果只是想看看效果建议可以使用开发版本，这样可以省去配置 Mysql 的步骤
 
 编译完成后会将整个前端和后端，以及 `deploy` 目录下的素材打包成一个包供发布使用
 
@@ -50,19 +65,25 @@ app-template 是基于 Spring Boot 和 Vue 的快速开发模板
 
 使用 **Gradle 5.3** 以上版本来进行编译后端
 
-开发版本编译
+**开发**版本编译，使用 H2 数据库
 
 ```sh
 gradle build
 ```
 
-生产版本编译
+**生产**版本编译，使用 Mysql 数据库
 
 ```sh
 gradle build -Pprod
 ```
 
 生成的 **war** 包，在 `build/libs` 目录下
+
+如果想跳过**单元测试**的步骤可以在命令后加上 "-x test" 的参数，例如:
+
+```sh
+gradle build -Pprod -x test
+```
 
 ### 前端编译
 
