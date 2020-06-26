@@ -24,11 +24,6 @@ info() {
 checkCmd() {
   ret=0
 
-  if ! hash gradle 2>/dev/null; then
-    error "gradle not found"
-    ret=1
-  fi
-
   if ! hash git 2>/dev/null; then
     error "git not found"
     ret=1
@@ -52,7 +47,7 @@ checkCmd() {
 
 buildAll() {
   # 删除　build 目录
-  gradle clean
+  ./gradlew clean
 
   cd web || { echo "cd web Failure"; exit 1; }
 
@@ -82,10 +77,10 @@ buildAll() {
 
   if [ "$mode" == "prod" ]; then
     echo "** BUILD PROD **"
-    gradle build -Pprod -x test
+    ./gradlew build -Pprod
   else
     echo "** BUILD DEV **"
-    gradle build
+    ./gradlew build
   fi
 
   if [ $? -ne 0 ];then
@@ -166,8 +161,8 @@ usage() {
   echo "Usage: $0 [mode]"
   echo ""
   echo "mode:"
-  echo "  dev  开发模式"
-  echo "  prod 生产模式"
+  echo "  dev  : development mode package, use h2 database"
+  echo "  prod : production mode package, use mysql database"
 }
 
 if [ $# -ne 1 ]; then
