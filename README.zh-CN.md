@@ -45,62 +45,54 @@ app-template 是基于 Spring Boot 和 Vue 的快速开发模板
 * Swagger 在线文档的编辑展示
 * 通过 Logan 来获取前端出错日志
 
-## 编译
+## 1. 编译
 
-**注意**: 如果编译 **prod** 版本，请先确保在 `application-pro.yml` 中设置了正确
-的 Mysql 用户名、密码、数据库名称，并且在运行前确保数据库初始化完毕。
+**注意**: 如果是编译 **prod** 版本并且想在 `build\libs` 目录下直接运行，则请先
+在 `resources/application-pro.yml` 中设置正确的 Mysql 用户名、密码、数据库名称，
+并且在运行前确保数据库初始化完毕。如果是在 deploy 目录下通过 `start.sh` 来运行，则
+可以在运行前再配置 `app/application-pro.yml`。
 
-执行 `./build.sh` 然后根据提示选择编译的版本
+编译说明：
 
-编译支持**开发版本**和**生产版本**，两者唯一的区别就是数据库使用的不一样，
+* 在 Linux 中，执行 `./build.sh` 然后根据提示选择编译对应模式的版本, 编译完成后会
+将整个前端和后端，以及 `deploy` 目录下的素材打包成一个包(**app-deploy.tgz**)供发布
+使用
+* 在 Windows 中，执行 `build.bat` 然后根据提示选择编译对应模式的版本, 编译完成后会在
+`build\libs` 目录下生成 war 包, 可以通过 `java -jar [war 包]` 来运行
+
+编译支持**开发版本**和**生产版本**，两者唯一的区别就是**数据库**使用的不一样，
 开发模式下默认使用的是 **H2** 数据库，生产模式使用的是 **Mysql** 数据库
 
-建议：如果只是想看看效果建议可以使用开发版本，这样可以省去配置 Mysql 的步骤
+建议：如果只是想看看效果可以使用开发版本，这样可以省去配置 Mysql 的步骤
 
-编译完成后会将整个前端和后端，以及 `deploy` 目录下的素材打包成一个包供发布使用
+如果想对前后端分别编译，可以参考 [项目的详细配置和编译说明](./doc/manual/项目配置.md)
+或者通过查看编译脚本来了解细节
 
-如果想对前后端分别编译，可以参考下方说明
+## 2. 运行
 
-### 后端编译
+有两种运行方式
 
-使用 **Gradle 5.3** 以上版本来进行编译后端
+* 在 `build\libs` 目录下直接运行，通常这是开发调试的时候使用
+* 在通过部署包 **app-deploy.tgz** 解压后安装来运行，这是生产模式下会使用
 
-**开发**版本编译，使用 H2 数据库
+**注意**: 两种运行方式衣依赖的 `application-pro.yml` 文件是不一样的，项目中该文件有两个
 
-```sh
-gradle build
-```
+* src/main/resources/application-pro.yml
+* deploy/app/application-pro.yml
 
-**生产**版本编译，使用 Mysql 数据库
+如果在 deploy 目录下通过 `start.sh` 来运行则需要修改的是 deploy 目录下的
+`application-pro.yml` 中的配置
 
-```sh
-gradle build -Pprod
-```
+如果在 `build/libs` 目录下直接运行 war 包，则需要在 build 前修改 resources 目录下的
+`application-pro.yml` 中的配置
 
-生成的 **war** 包，在 `build/libs` 目录下
+### 2.1 初始化数据库
 
-如果想跳过**单元测试**的步骤可以在命令后加上 "-x test" 的参数，例如:
+在生产模式下，运行之前**必须** 初始化 **Mysql** 数据库。如果编译的是开发模式则不需要。
 
-```sh
-gradle build -Pprod -x test
-```
-
-### 前端编译
-
-请参考 `web` 目录下各自的 README.md 文件
-
-## 使用
-
-### 初始化数据库
-
-在生产模式下，使用 **Mysql** 之前**必须**创建数据库。
-
-创建好数据库之后，可以通过导入 `deploy\init.sql` 来进行初始化
-或者执行安装程序 `install.sh` 来初始化
-
-**注意**: 关于 `install.sh` 的使用说明可以参考 `deploy/README.md`
-
-### 运行
+在 Mysql 中创建好数据库之后，可以通过导入 `deploy\init.sql` 来进行初始化
+或者执行安装程序 `install.sh` 来初始化，关于 `install.sh` 的使用说明
+可以参考 `deploy/README.md`
 
 在部署的目录下执行
 
@@ -108,31 +100,31 @@ gradle build -Pprod -x test
 ./start.sh
 ```
 
-服务器启动之后，访问网页
+服务器启动之后，访问网址
 
-* 手机端网页: http://ip:port/app-template/index.html
-* 管理端网页: http://ip:port/app-template/admin/index.html
-* swagger ui: http://ip:port/app-template/swagger-ui.html
+* 手机端网页 : http://ip:port/app-template/index.html
+* 管理端网页 : http://ip:port/app-template/admin/index.html
+* swagger ui : http://ip:port/app-template/swagger-ui.html
 
-## 其他说明
+## 3. 其他说明
 
-### 数据库初始化
+### 3.1 数据库初始化
 
 因为 **H2** 和 **Mysql** 的差异性，所以两者的初始化 sql 脚本不一样
 
 在 `resources/db/` 目录下是 **H2** 数据库初始化使用的
 
-* schema-h2.sql 数据库结构
-* data-h2.sql 数据库数据
+* `schema-h2.sql` 数据库结构
+* `data-h2.sql` 数据库数据
 
 在 `deploy/init.sql` 是 **Mysql** 数据库初始化使用
 
-### 为什么使用 context-path
+### 3.2 为什么使用 context-path
 
 `server.servlet.context-path=app-template`, 应用的上下文路径，也可以称为项目路径，
-是构成url地址的一部分。
+是构成 url 地址的一部分。
 
-加上该配置后，会自动在 url 前加上 /app-template, 如：原来的接口为
+加上该配置后，会自动在 url 前加上 `/app-template`, 如：原来的接口为
  `localhost:8080/api/user`, 加上该配置后就会
  变成 `localhost:8080/app-template/api/user`
 
@@ -140,4 +132,4 @@ gradle build -Pprod -x test
 请求，分发到指定的 server。
 
 如果不使用 nginx 来进行转发，则可以将该配置删除。
-**注意** : 在删除的同时，需要将前端代码中 url 的 **app-template** 也删除。
+**注意** : 在删除的同时，需要将前端代码中 url 的 `app-template` 也删除。
