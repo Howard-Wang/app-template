@@ -39,7 +39,8 @@ The functions implemented are:
 
 ## Compile
 
-Please Run `./build.sh` Then choose the compiled version according to the prompt.
+* Linux : Run `./build.sh` Then choose the compiled version according to the prompt.
+* Windows : Run `build.bat` Then choose the compiled version according to the prompt.
 
 Compilation supports the **development mode** and the **production mode**.
 The only difference between the two is that the database is not the same.
