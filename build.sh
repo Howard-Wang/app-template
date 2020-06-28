@@ -6,7 +6,8 @@
 deployFolder="app-deploy"
 deployFile="${deployFolder}.tgz"
 
-NPM_CMD="cnpm"
+# 国内建议使用 cnpm
+NPM_CMD="npm"
 
 error() {
   echo -e "\033[31m[error] $1\033[0m"
@@ -36,7 +37,6 @@ checkCmd() {
 
   if ! hash $NPM_CMD 2>/dev/null; then
     error "$NPM_CMD not found"
-    info "Please check https://npm.taobao.org/"
     ret=1
   fi
 
