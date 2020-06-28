@@ -6,6 +6,11 @@
 
 app-template 是基于 Spring Boot 和 Vue 的快速开发模板
 
+演示
+
+* [Web 管理端](http://47.105.79.88:8090/app-template/admin/index.html)
+* [Web 手机端](http://47.105.79.88:8090/app-template/index.html)
+
 项目采用前后端分离模式，对前后端开发中常用的技术模块进行了整合，并对一些常用功能进行
 了实现，主要是为了方便 Web 程序的的开发.
 
