@@ -1,45 +1,38 @@
-# Introduction
+# 介绍
 
-[简体中文](./README-zh.md)
+[English](./README.en.md)
 
-A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
+模板代码的管理后台，使用的原始代码是 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
 
 ## Build Setup
 
 ```bash
-# install dependency
 npm install
-
-# develop
 npm run dev
 ```
 
-## Build
+## 发布
 
 ```bash
-# build for test environment
+# 构建测试环境
 npm run build:stage
 
-# build for production environment
+# 构建生产环境
 npm run build:prod
 ```
 
-## Advanced
+## 其它
 
 ```bash
-# preview the release environment effect
+# 预览发布环境效果
 npm run preview
 
-# preview the release environment effect + static resource analysis
+# 预览发布环境效果 + 静态资源分析
 npm run preview -- --report
 
-# code format check
+# 代码格式检查
 npm run lint
 
-# code format check and auto fix
+# 代码格式检查并自动修复
 npm run lint -- --fix
 ```
-
-## Thanks
-
-[vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
