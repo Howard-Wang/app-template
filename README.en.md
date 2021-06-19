@@ -9,8 +9,8 @@
 
 Demo
 
-* [Web Management](http://47.105.79.88:8090/app-template/admin/index.html)
-* [Web Moble](http://47.105.79.88:8090/app-template/index.html)
+* [Web Management](http://47.105.79.88:9090/app-template/admin/index.html)
+* [Web Moble](http://47.105.79.88:9090/app-template/index.html)
 
 **App-template** is a rapid development template based on Spring Boot and Vue.
 The project adopts a front-end and back-end separation model, integrates the
